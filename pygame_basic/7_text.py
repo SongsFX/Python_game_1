@@ -38,8 +38,8 @@ game_font = pygame.font.Font(None, 40) #폰트 객체 생성 (폰트, 크기)
 # 총 시간
 total_time = 10
 
-# 시간 계산
-start_ticks = pygame.time.get_ticks # 시작 tick을 받아옴
+# 시작 시간
+start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
 
 running = True
 while running:
@@ -97,7 +97,25 @@ while running:
     screen.blit(background, (0,0))
     screen.blit(character, (character_x_pos, character_y_pos))
     screen.blit(enemy, (enemy_x_pos, enemy_y_pos)) 
+
+    #타이머 집어넣기
+    #경과 시간 계산
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 #경과 시간(ms)을 1000로 나누어서 초 단위로 표시
+
+    #출력할글자,True, 색상
+    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255,255,255))
     
+    screen.blit(timer, (10, 10))
+
+    if total_time - elapsed_time <= 0:
+        print("타임오버")
+        running = False
+
+    
+
     pygame.display.update() 
+
+#잠시대기 2초대기
+pygame.time.delay(2000)
 
 pygame.quit
